@@ -72,7 +72,11 @@
 
 ## 🎬 Demo Video
 
-*Video coming soon!*
+<a href="https://www.linkedin.com/posts/debdut-bhaduri-32323156_ai-mcp-activity-7344696880439640065-O5yH?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAAvHs4sBZj1VzkgehFNRu1b6rNSunhZuTFk" target="_blank">
+    <img src="https://img.shields.io/badge/Watch%20Demo%20Video-LinkedIn-blue?style=for-the-badge&logo=linkedin" alt="Watch Demo Video on LinkedIn"/>
+</a>
+
+Or click here: [▶️ Watch the Demo Video on LinkedIn](https://www.linkedin.com/posts/debdut-bhaduri-32323156_ai-mcp-activity-7344696880439640065-O5yH?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAAvHs4sBZj1VzkgehFNRu1b6rNSunhZuTFk)
 
 ---
 
@@ -114,15 +118,15 @@ curl --location --request POST 'http://localhost:8000/stop_task'
 ### System Flowchart
 
 ```mermaid
-graph TD;
-    A[User/Browser UI] -->|Paste URL, Start| B[FastAPI Backend (app.py)]
-    B --> C[Task Scheduler (cronjob.py)]
-    C --> D[Instagram MCP Client (bottask.py)]
-    D --> E[Google Gemini AI]
-    D --> F[Instagram API via MCP]
-    D --> G[anniedb.json (Database)]
-    B --> H[uiscreen/index.html]
-    G -->|History, Comments, Tasks| B
+graph TD
+    A["User/Browser UI"] -->|"Paste URL, Start"| B["FastAPI Backend (app.py)"]
+    B --> C["Task Scheduler (cronjob.py)"]
+    C --> D["Instagram MCP Client (bottask.py)"]
+    D --> E["Google Gemini AI"]
+    D --> F["Instagram API via MCP"]
+    D --> G["anniedb.json (Database)"]
+    B --> H["uiscreen/index.html"]
+    G -->|"History, Comments, Tasks"| B
 ```
 
 ### How It Works
@@ -144,3 +148,40 @@ graph TD;
 - **Reliability:** Persistent storage ensures no data is lost between runs. The scheduler ensures tasks run at the correct intervals.
 - **AI Integration:** Using Google Gemini AI allows for advanced comment analysis and response generation, making the bot more human-like and effective.
 - **User-Friendly:** The UI and API endpoints make it easy for both technical and non-technical users to operate the system.
+
+---
+
+## 🔑 Important Setup Notes
+
+- **Gemini API Key:**
+  - You must add your own Gemini API key in `bottask.py` at the line:
+    ```python
+    GEMINI_API_KEY = "YOUR GEMINI API"
+    ```
+  - Get your API key from [Google AI Studio](https://aistudio.google.com/app/apikey) and replace the placeholder.
+
+## 🖥️ Running the UI
+
+To use the web interface:
+
+1. Open a terminal and navigate to the project directory (if not already there).
+2. Go to the UI folder:
+   ```bash
+   cd uiscreen
+   ```
+3. Open `index.html` in your web browser:
+   - You can double-click the file in your file explorer, or
+   - Run (on Windows):
+     ```bash
+     start index.html
+     ```
+   - Or (on macOS):
+     ```bash
+     open index.html
+     ```
+   - Or (on Linux):
+     ```bash
+     xdg-open index.html
+     ```
+4. Paste the Instagram post URL you want to monitor, then tap the **Play** button.
+5. Watch the terminal running `uvicorn app:app` for logs and status updates.
