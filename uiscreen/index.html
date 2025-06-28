@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Annie: Your AI Witty Social Media Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;400&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --main-bg: #fff;
+      --accent: #fd1d1d;
+      --accent-dark: #833ab4;
+      --insta-gradient: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
+      --text-main: #262626;
+      --text-light: #8e8e8e;
+      --border-radius: 2rem;
+      --shadow: 0 4px 24px 0 rgba(0,0,0,0.07);
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Quicksand', 'Montserrat', Arial, sans-serif;
+      background: var(--main-bg);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+    body {
+      display: flex;
+      min-height: 100vh;
+      align-items: stretch;
+      justify-content: center;
+    }
+    .split {
+      display: flex;
+      width: 100vw;
+      min-height: 100vh;
+    }
+    .left {
+      flex: 1;
+      background: var(--insta-gradient);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-top-right-radius: var(--border-radius);
+      border-bottom-right-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 3vw 2vw;
+      min-width: 260px;
+      position: relative;
+      overflow: hidden;
+    }
+    .left::before {
+      content: '';
+      position: absolute;
+      top: 10%;
+      left: 10%;
+      width: 80px;
+      height: 80px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
+      filter: blur(2px);
+      z-index: 0;
+    }
+    .left h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.8rem;
+      margin: 0 0 1rem 0;
+      letter-spacing: 1px;
+      font-weight: 700;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      z-index: 1;
+    }
+    .left p {
+      font-size: 1.2rem;
+      font-weight: 400;
+      margin: 0;
+      color: #fff9;
+      max-width: 350px;
+      text-align: center;
+      z-index: 1;
+    }
+    .right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      border-top-left-radius: var(--border-radius);
+      border-bottom-left-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 3vw 2vw;
+      min-width: 260px;
+    }
+    .annie-greeting-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1.2rem;
+      margin-top: 0.5rem;
+    }
+    .left .annie-greeting {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 1.5px;
+      display: flex;
+      gap: 0.05em;
+      min-height: 2.2em;
+      position: relative;
+      user-select: none;
+      text-align: center;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    }
+    .input-heading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 1.2rem;
+    }
+    .heading-text {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #833ab4;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.2rem;
+    }
+    .arrow-down {
+      font-size: 2rem;
+      color: #fd1d1d;
+      line-height: 1;
+      margin-bottom: 0.2rem;
+      filter: drop-shadow(0 1px 2px #fcb04544);
+    }
+    .input-area {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      width: 100%;
+      max-width: 350px;
+      margin-bottom: 2rem;
+    }
+    .input-area input[type="text"] {
+      flex: 1;
+      padding: 0.8rem 1.2rem;
+      border: 2px solid #fd1d1d;
+      border-radius: 2rem;
+      font-size: 1.1rem;
+      outline: none;
+      transition: border 0.2s;
+      background: #fafafa;
+      color: var(--text-main);
+    }
+    .input-area input[type="text"]:focus {
+      border: 2px solid #833ab4;
+    }
+    .play-btn {
+      background: var(--insta-gradient);
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 8px 0 rgba(253,29,29,0.12);
+      transition: background 0.2s, transform 0.1s;
+      position: relative;
+    }
+    .play-btn:active {
+      background: linear-gradient(135deg, #fcb045 0%, #fd1d1d 100%);
+      transform: scale(0.96);
+    }
+    .play-btn svg {
+      width: 24px;
+      height: 24px;
+      fill: #fff;
+      filter: drop-shadow(0 1px 2px rgba(131,58,180,0.12));
+    }
+    .play-btn::after {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 2px solid rgba(252,176,69,0.18);
+      z-index: 0;
+    }
+    .status {
+      font-size: 1.1rem;
+      color: #fd1d1d;
+      font-weight: 600;
+      background: linear-gradient(90deg, #fcb04522 0%, #fd1d1d22 100%);
+      border-radius: 1.2rem;
+      padding: 0.7rem 1.5rem;
+      box-shadow: 0 1px 4px 0 rgba(253,29,29,0.08);
+      min-width: 180px;
+      text-align: center;
+      transition: background 0.2s, color 0.2s;
+      user-select: none;
+      overflow: hidden;
+      position: relative;
+    }
+    .status.animated {
+      animation: fadeIn 0.5s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .status .letter {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: letterIn 0.5s forwards;
+      animation-delay: var(--delay, 0s);
+    }
+    @keyframes letterIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .play-btn, .play-btn svg {
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+    }
+    .icon-play, .icon-pause {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+    }
+    @media (max-width: 900px) {
+      .split {
+        flex-direction: column;
+      }
+      .left, .right {
+        border-radius: 0;
+        min-width: 0;
+        min-height: 220px;
+        padding: 2rem 1rem;
+      }
+      .left {
+        border-bottom-left-radius: var(--border-radius);
+        border-top-right-radius: 0;
+      }
+      .right {
+        border-top-right-radius: var(--border-radius);
+        border-bottom-left-radius: 0;
+      }
+    }
+    @media (max-width: 600px) {
+      .left h1 {
+        font-size: 2rem;
+      }
+      .left p {
+        font-size: 1rem;
+      }
+      .input-area input[type="text"] {
+        font-size: 1rem;
+      }
+      .status {
+        font-size: 1rem;
+        min-width: 120px;
+      }
+    }
+    .status .emoji {
+      display: inline-block;
+      margin-left: 0.5em;
+      animation: emojiBounce 1s infinite;
+    }
+    @keyframes emojiBounce {
+      0%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-7px) scale(1.1); }
+      60% { transform: translateY(2px) scale(0.95); }
+    }
+    .status.working .letter {
+      animation: letterIn 0.5s forwards, letterWave 1.5s 0.5s infinite alternate;
+      animation-delay: var(--delay, 0s), calc(var(--delay, 0s) + 0.5s);
+    }
+    .status.resting .letter {
+      animation: letterIn 0.5s forwards, letterRestWave 1.5s 0.5s infinite alternate;
+      animation-delay: var(--delay, 0s), calc(var(--delay, 0s) + 0.5s);
+    }
+    @keyframes letterWave {
+      0% { color: #833ab4; transform: translateY(0); }
+      50% { color: #fd1d1d; transform: translateY(-4px); }
+      100% { color: #833ab4; transform: translateY(0); }
+    }
+    @keyframes letterRestWave {
+      0% { color: #fd1d1d; transform: translateY(0); }
+      50% { color: #fcb045; transform: translateY(4px); }
+      100% { color: #fd1d1d; transform: translateY(0); }
+    }
+    .history-btn {
+      margin-top: 1.5rem;
+      padding: 0.7rem 2rem;
+      background: var(--insta-gradient);
+      color: #fff;
+      border: none;
+      border-radius: 1.2rem;
+      font-size: 1.08rem;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px 0 rgba(253,29,29,0.10);
+      transition: background 0.2s, transform 0.1s;
+      outline: none;
+      letter-spacing: 0.5px;
+      display: block;
+    }
+    .history-btn:active {
+      background: linear-gradient(135deg, #fcb045 0%, #fd1d1d 100%);
+      transform: scale(0.97);
+    }
+    .history-container {
+      margin-top: 1.2rem;
+      width: 100%;
+      max-width: 350px;
+      background: #fff8f6;
+      border-radius: 1.2rem;
+      box-shadow: 0 2px 8px 0 rgba(253,29,29,0.06);
+      padding: 1.2rem 1rem 1rem 1rem;
+      min-height: 40px;
+      max-height: 220px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.01rem;
+      color: var(--text-main);
+      animation: fadeIn 0.4s;
+    }
+    .history-item {
+      background: linear-gradient(90deg, #fcb04511 0%, #fd1d1d11 100%);
+      border-radius: 0.8rem;
+      padding: 0.7rem 1rem;
+      box-shadow: 0 1px 4px 0 rgba(253,29,29,0.04);
+      color: #833ab4;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.7em;
+      word-break: break-word;
+    }
+    .history-loading {
+      text-align: center;
+      color: #fd1d1d;
+      font-size: 1.1rem;
+      padding: 1.2rem 0;
+    }
+    .history-error {
+      text-align: center;
+      color: #fd1d1d;
+      font-size: 1.1rem;
+      padding: 1.2rem 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="split">
+    <div class="left">
+      <div class="annie-greeting-container">
+        <div class="annie-greeting" id="annieGreeting"></div>
+      </div>
+      <p>Your <b>AI witty social media manager</b><br/>
+sends DMs to interested people<br/>
+and witty replies to negative comments</p>
+    </div>
+    <div class="right">
+      <div class="input-heading">
+        <span class="heading-text">Paste the Instagram post link below</span>
+        <span class="arrow-down">&#8595;</span>
+      </div>
+      <div class="input-area">
+        <input type="text" id="userInput" placeholder="Paste the Instagram post link" />
+        <button class="play-btn" id="playBtn" title="Send">
+          <span class="icon-play" id="iconPlay">
+            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          </span>
+          <span class="icon-pause" id="iconPause" style="display:none;">
+            <svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" rx="2"/><rect x="14" y="4" width="4" height="16" rx="2"/></svg>
+          </span>
+        </button>
+      </div>
+      <div class="status" id="annieStatus">Annie is relaxing</div>
+      <button class="history-btn" id="showHistoryBtn">Show History</button>
+      <div class="history-container" id="historyContainer" style="display:none;"></div>
+    </div>
+  </div>
+  <script>
+    const playBtn = document.getElementById('playBtn');
+    const annieStatus = document.getElementById('annieStatus');
+    const iconPlay = document.getElementById('iconPlay');
+    const iconPause = document.getElementById('iconPause');
+    let working = false;
+    let statusTimeout = null;
+
+    function animateStatusText(text, emoji, mode) {
+      annieStatus.innerHTML = '';
+      annieStatus.classList.remove('animated', 'working', 'resting');
+      setTimeout(() => {
+        for (let i = 0; i < text.length; i++) {
+          const span = document.createElement('span');
+          span.textContent = text[i];
+          span.className = 'letter';
+          span.style.setProperty('--delay', (i * 0.03) + 's');
+          if (mode === 'working') span.classList.add('working');
+          if (mode === 'resting') span.classList.add('resting');
+          annieStatus.appendChild(span);
+        }
+        const emojiSpan = document.createElement('span');
+        emojiSpan.className = 'emoji';
+        emojiSpan.textContent = emoji;
+        annieStatus.appendChild(emojiSpan);
+        annieStatus.classList.add('animated', mode);
+      }, 10);
+    }
+
+    function setStatus(isWorking) {
+      if (isWorking) {
+        animateStatusText('Annie is working', '🛠️', 'working');
+        annieStatus.style.background = 'linear-gradient(90deg, #fd1d1d22 0%, #fcb04522 100%)';
+        annieStatus.style.color = '#833ab4';
+      } else {
+        animateStatusText('Annie is relaxing', '😌', 'resting');
+        annieStatus.style.background = 'linear-gradient(90deg, #fcb04522 0%, #fd1d1d22 100%)';
+        annieStatus.style.color = '#fd1d1d';
+      }
+    }
+
+    function togglePlayPause(isWorking) {
+      if (isWorking) {
+        iconPlay.style.display = 'none';
+        iconPause.style.display = 'flex';
+      } else {
+        iconPlay.style.display = 'flex';
+        iconPause.style.display = 'none';
+      }
+    }
+
+    // Helper to show a temporary status message
+    function showTempStatus(msg, emoji = '', mode = 'working', duration = 2000) {
+      animateStatusText(msg, emoji, mode);
+      setTimeout(() => setStatus(working), duration);
+    }
+
+    playBtn.addEventListener('click', async () => {
+      const input = document.getElementById('userInput');
+      const postUrl = input.value.trim();
+      if (!working && postUrl) {
+        // Play pressed, send start_task API request
+        working = true;
+        setStatus(working);
+        togglePlayPause(working);
+        playBtn.disabled = true;
+        try {
+          const response = await fetch('http://localhost:8000/start_task', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ time: 1, post_url: postUrl })
+          });
+          if (response.ok) {
+            showTempStatus('Task started! 🚀', '🚀', 'working', 1500);
+          } else {
+            showTempStatus('Failed to start 😢', '😢', 'working', 2000);
+          }
+        } catch (e) {
+          showTempStatus('Error connecting 😢', '😢', 'working', 2000);
+        }
+        playBtn.disabled = false;
+      } else if (!working) {
+        // No link pasted
+        showTempStatus('Paste a link first! 🔗', '🔗', 'working', 1500);
+      } else if (working) {
+        // Pause pressed, send stop_task API request
+        working = false;
+        setStatus(working);
+        togglePlayPause(working);
+        playBtn.disabled = true;
+        try {
+          const response = await fetch('http://localhost:8000/stop_task', {
+            method: 'POST'
+          });
+          if (response.ok) {
+            showTempStatus('Task stopped! 🛑', '🛑', 'resting', 1500);
+          } else {
+            showTempStatus('Failed to stop 😢', '😢', 'resting', 2000);
+          }
+        } catch (e) {
+          showTempStatus('Error stopping 😢', '😢', 'resting', 2000);
+        }
+        playBtn.disabled = false;
+      }
+    });
+
+    // Initial animated status
+    animateStatusText('Annie is relaxing', '😌', 'resting');
+
+    // Show History button logic
+    const showHistoryBtn = document.getElementById('showHistoryBtn');
+    const historyContainer = document.getElementById('historyContainer');
+    let historyVisible = false;
+
+    showHistoryBtn.addEventListener('click', async () => {
+      if (!historyVisible) {
+        historyContainer.style.display = 'block';
+        historyContainer.innerHTML = '<div class="history-loading">Loading...</div>';
+        showHistoryBtn.textContent = 'Hide History';
+        try {
+          const response = await fetch('http://localhost:8000/get_work_history', {
+            method: 'POST'
+          });
+          if (response.ok) {
+            const data = await response.json();
+            if (Array.isArray(data)) {
+              if (data.length === 0) {
+                historyContainer.innerHTML = '<div class="history-loading">No history found.</div>';
+              } else {
+                historyContainer.innerHTML = data.map((item, idx) => `<div class="history-item"><span>📄</span>${item}</div>`).join('');
+              }
+            } else {
+              historyContainer.innerHTML = '<div class="history-error">Invalid response format.</div>';
+            }
+          } else {
+            historyContainer.innerHTML = '<div class="history-error">Failed to fetch history.</div>';
+          }
+        } catch (e) {
+          historyContainer.innerHTML = '<div class="history-error">Error fetching history.</div>';
+        }
+        historyVisible = true;
+      } else {
+        historyContainer.style.display = 'none';
+        showHistoryBtn.textContent = 'Show History';
+        historyVisible = false;
+      }
+    });
+
+    // Animated greeting logic
+    const annieGreeting = document.getElementById('annieGreeting');
+    const greetText = "Hi I'm Annie";
+    function animateGreeting() {
+      annieGreeting.classList.remove('hide');
+      annieGreeting.innerHTML = '';
+      for (let i = 0; i < greetText.length; i++) {
+        const span = document.createElement('span');
+        span.textContent = greetText[i];
+        span.className = 'greet-letter';
+        span.style.animationDelay = (i * 0.08) + 's';
+        annieGreeting.appendChild(span);
+      }
+      // After all letters are in, vanish all at once, then repeat
+      const totalIn = greetText.length * 80 + 800; // ms
+      setTimeout(() => {
+        // Remove the fade-in animation and trigger vanish for all
+        const letters = annieGreeting.querySelectorAll('.greet-letter');
+        letters.forEach(letter => {
+          letter.style.animation = 'greetLetterOut 0.4s forwards';
+          letter.style.animationDelay = '0s';
+        });
+        setTimeout(animateGreeting, 500);
+      }, totalIn);
+    }
+    animateGreeting();
+  </script>
+</body>
+</html> 

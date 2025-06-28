@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "instagram_dms": {
+      "command": "python",
+      "args": [
+        "C:/aiprojects/instagram_dm_mcp/src/mcp_server.py" 
+      ]
+    }
+  }
+}
